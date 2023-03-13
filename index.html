@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Pizza Designer</title>
+  <style>
+    #pizza-container {
+      width: 500px;
+      height: 500px;
+      border: 1px solid black;
+      border-radius: 50%;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      background: url("image/olive.jpg") no-repeat center center;
+      background-size: contain;
+    }
+
+    #ingredients-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .ingredient {
+      width: 100px;
+      height: 100px;
+      margin: 10px;
+      background-size: cover;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Pizza Designer</h1>
+  <div id="pizza-container">
+    <div id="base-container"></div>
+  </div>
+  <div id="ingredients-container">
+    <div class="ingredient" style="background-image: url('image/pexels-vincent-rivaud-2147491.jpg')"
+      data-ingredient="pepperoni"></div>
+    <div class="ingredient" style="background-image: url('image/masroom.jpg')" data-ingredient="masroom">
+    </div>
+    <div class="ingredient" style="background-image: url('image/olive.jpg')" data-ingredient="olive">
+    </div>
+    <div class="ingredient" style="background-image: url('image/onion.jpg')" data-ingredient="onion">
+    </div>
+    <div class="ingredient" style="background-image: url('image/pinaple.jpg')"
+      data-ingredient="pinaple"></div>
+    <div class="ingredient" style="background-image: url('image/sasuage.jpg')" data-ingredient="sasuage">
+    </div>
+  </div>
+  <script>
+    // Selectors
+    const baseContainer = document.querySelector('#base-container');
+    const ingredients = document.querySelectorAll('.ingredient');
+
+    // Event Listeners
+    for (const ingredient of ingredients) {
+      ingredient.addEventListener('dragstart', onDragStart);
+    }
+
+    baseContainer.addEventListener('dragover', onDragOver);
+    baseContainer.addEventListener('drop', onDrop);
+
+    // Functions
+    function onDragStart(event) {
+      event.dataTransfer.setData('text/plain', event.target.dataset.ingredient);
+    }
+
+    function onDragOver(event) {
+      event.preventDefault();
+    }
+
+    function onDrop(event) {
+      const ingredient = event.dataTransfer.getData('text');
+      const newIngredient = document.createElement('div');
+      newIngredient.classList.add('ingredient');
+      newIngredient.style.backgroundImage = `url('image/${ingredient}.jpg')`;
+      baseContainer.appendChild(newIngredient);
+    }
+  </script>
+</body>
+
+</html>
